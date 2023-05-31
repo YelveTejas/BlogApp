@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box, Button, TextField, Typography, styled } from "@mui/material";
 import axios from "axios";
+import { DataContext } from "../context/DataProvider";
+import { useNavigate } from "react-router-dom";
 const Component = styled(Box)`
   width: 400px;
   margin: auto;
@@ -24,7 +26,8 @@ const Wrapper = styled(Box)`
     margin-top: 20px;
   }
 `;
-const Login = () => {
+const Login = ({setAuthenticate}) => {
+  const {setSaveData} = useContext(DataContext)
   const signupdata = {
     name: "",
     username: "",
@@ -34,6 +37,7 @@ const Login = () => {
     username: "",
     password: "",
   };
+  const navigate = useNavigate()
   const [data, setData] = useState(signupdata);
   const [loginData, setLoginData] = useState(logindata);
   const [account, setAccount] = useState("login");
@@ -68,6 +72,11 @@ const Login = () => {
       .post("http://localhost:4400/login", loginData)
       .then((res) => {
         console.log(res);
+        sessionStorage.setItem('accesstoken',`Bearear ${res.data.accesToken}`)
+        sessionStorage.setItem('refreshToen',`Bearear ${res.data.refreshToken}`)
+        setSaveData({username:res.data.username,name:res.data.name})
+        setAuthenticate(true)
+        navigate('/')
       })
       .catch((err) => {
         console.log(err);
