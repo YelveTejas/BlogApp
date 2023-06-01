@@ -29,7 +29,7 @@ const Category = () => {
         <TableHead>
           <TableRow>
             <StyledLink to=''>
-            <TableCell>All Category</TableCell>
+            <TableCell>All Categories</TableCell>
             </StyledLink>
           </TableRow>
         </TableHead>
