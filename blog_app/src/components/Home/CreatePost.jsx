@@ -9,7 +9,7 @@ import {
 import React, { useContext, useState } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { DataContext } from "../../context/DataProvider";
 
 const Image = styled("img")`
@@ -29,8 +29,8 @@ const CreatePost = () => {
 
   const [post, setPost] = useState(Blog_post);
   const [file, setFile] = useState("");
-  const location = useLocation();
-  const [saveData] = useContext(DataContext);
+   const location = useLocation();
+  const {saveData} = useContext(DataContext);
   useEffect(() => {
     const getImage = () => {
       if (file) {
@@ -40,10 +40,11 @@ const CreatePost = () => {
       }
     };
     getImage();
-    post.category = location.search?.split("=")[1] || "All";
+    post.category = location.search?.split("=")[1] || "All"; 
     post.username = saveData.username
   }, [file]);
 
+ 
   const url =
     "https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80";
 

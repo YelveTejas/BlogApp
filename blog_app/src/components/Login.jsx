@@ -55,7 +55,7 @@ const Login = ({setAuthenticate}) => {
   const login = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
-  console.log(loginData);
+  // console.log(loginData);
   const signup = () => {
     axios
       .post("http://localhost:4400/signup", data)
