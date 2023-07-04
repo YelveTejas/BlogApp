@@ -6,6 +6,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Delete, Edit } from '@mui/icons-material';
 import { DataContext } from "../../context/DataProvider";
 import Comments from "./Comments/Comments";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Details = () => {
   const [post, setPost] = useState({});
@@ -59,7 +61,7 @@ const deleteblog=()=>{
  axios.delete(`http://localhost:4400/delete/${post._id}`,{headers})
  .then((res)=>{
   if(res.status==200){
-    alert('Post Deleted Successfully')
+    toast.success('Post Deleted Successfully')
     navigate('/')
 
   }

@@ -60,7 +60,7 @@ function App() {
         </Routes>
       </div>
     </DataProvider>
-    <ToastContainer position="top-center" autoClose={4000} hideProgressBar />
+    <ToastContainer position="top-center" autoClose={4000} closeOnClick={true} />
     </>
   );
 }

@@ -71,6 +71,7 @@ const Login = ({ setAuthenticate }) => {
       .post("http://localhost:4400/signup", data)
       .then((res) => {
         console.log(res);
+        toast.success('Signup successful.');
       })
       .catch((err) => {
         console.log("error", err);
@@ -83,7 +84,7 @@ const Login = ({ setAuthenticate }) => {
       .post("http://localhost:4400/login", loginData)
       .then((res) => {
         console.log(res, "Data");
-        toast.success('Signup successful.');
+        toast.success('Login successful.');
         sessionStorage.setItem("accesstoken", `Bearear ${res.data.Token}`);
         setSaveData({ username: res.data.username, name: res.data.name });
         setAuthenticate(true);
@@ -91,6 +92,7 @@ const Login = ({ setAuthenticate }) => {
       })
       .catch((err) => {
         console.log(err);
+        toast.error('Error While loginin');
       });
   };
 

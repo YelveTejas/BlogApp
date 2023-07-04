@@ -17,6 +17,8 @@ import {
 } from "react-router-dom";
 import { DataContext } from "../../context/DataProvider";
 import axios from "axios";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 const Image = styled("img")`
   width: 100%;
   height: 50vh;
@@ -38,9 +40,14 @@ const Update = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { saveData } = useContext(DataContext);
+  const accessToken = sessionStorage.getItem("accesstoken").split(" ");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: accessToken[1],
+  };
 
   useEffect(() => {
-    axios.get(`http://localhost:4400/details/${id}`).then((res) => {
+    axios.get(`http://localhost:4400/details/${id}`,{headers}).then((res) => {
       setPost(res.data);
     });
   }, []);
@@ -70,24 +77,20 @@ const Update = () => {
   const catchPost = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
-  const accessToken = sessionStorage.getItem("accesstoken").split(" ");
-
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: accessToken[1],
-  };
+  
   const uploadPost = () => {
     axios
-      .put(`http://localhost:4400/update/${id}`, post, { headers })
+      .put(`http://localhost:4400/update/${id}`, post,  {headers} )
       .then((res) => {
         console.log(res, "updated Data");
         if (res.status == 200) {
-          alert("Post Updated Successfully");
+          toast.success("Post Updated Successfully");
           navigate(`/details/${id}`)
         }
       })
       .catch((err) => {
         console.log(err);
+        toast.error('Error while updating post')
       });
   };
 

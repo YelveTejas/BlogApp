@@ -11,6 +11,8 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useEffect } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { DataContext } from "../../context/DataProvider";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 
 const Image = styled("img")`
@@ -67,12 +69,13 @@ const uploadPost=()=>{
   .then((res)=>{
      console.log(res)
      if(res.status==200){
-      alert('posted Successfully')
+    toast.success('Blog Posted Successfully')
       navigate('/')
       
      }
   }).catch((err)=>{
     console.log(err)
+    toast.error('Error while posting blog')
   })
 }
 
