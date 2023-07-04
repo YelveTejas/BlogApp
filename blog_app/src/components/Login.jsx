@@ -3,6 +3,8 @@ import { Box, Button, TextField, Typography, styled } from "@mui/material";
 import axios from "axios";
 import { DataContext } from "../context/DataProvider";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Component = styled(Box)`
   width: 400px;
   margin: auto;
@@ -26,8 +28,8 @@ const Wrapper = styled(Box)`
     margin-top: 20px;
   }
 `;
-const Login = ({setAuthenticate}) => {
-  const {setSaveData} = useContext(DataContext)
+const Login = ({ setAuthenticate }) => {
+  const { setSaveData } = useContext(DataContext);
   const signupdata = {
     name: "",
     username: "",
@@ -37,10 +39,11 @@ const Login = ({setAuthenticate}) => {
     username: "",
     password: "",
   };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [data, setData] = useState(signupdata);
   const [loginData, setLoginData] = useState(logindata);
   const [account, setAccount] = useState("login");
+
   const imageURL =
     "https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png";
 
@@ -57,6 +60,13 @@ const Login = ({setAuthenticate}) => {
   };
   // console.log(loginData);
   const signup = () => {
+    const email = data.username;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
     axios
       .post("http://localhost:4400/signup", data)
       .then((res) => {
@@ -68,97 +78,101 @@ const Login = ({setAuthenticate}) => {
   };
 
   const checklogin = () => {
+    // console.log(loginData)
     axios
       .post("http://localhost:4400/login", loginData)
       .then((res) => {
-        console.log(res);
-        sessionStorage.setItem('accesstoken',`Bearear ${res.data.accesToken}`)
-        sessionStorage.setItem('refreshToen',`Bearear ${res.data.refreshToken}`)
-        setSaveData({username:res.data.username,name:res.data.name})
-        setAuthenticate(true)
-        navigate('/')
+        console.log(res, "Data");
+        toast.success('Signup successful.');
+        sessionStorage.setItem("accesstoken", `Bearear ${res.data.Token}`);
+        setSaveData({ username: res.data.username, name: res.data.name });
+        setAuthenticate(true);
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   return (
-    <Component>
-      <Box>
-        <Image src={imageURL} alt="login"></Image>
-        {account === "login" ? (
-          <Wrapper>
-            <TextField
-              name="username"
-              onChange={(e) => login(e)}
-              placeholder="Email"
-              variant="standard"
-            ></TextField>
-            <TextField
-              name="password"
-              onChange={(e) => login(e)}
-              placeholder="password"
-              variant="standard"
-            ></TextField>
-            <Button
-              variant="contained"
-              style={{ backgroundColor: "#FB641B" }}
-              onClick={() => checklogin()}
-            >
-              Login
-            </Button>
-            <Typography style={{ textAlign: "center", marginTop: "5px" }}>
-              OR
-            </Typography>
-            <Button
-              variant="contained"
-              style={{ backgroundColor: "#FB641B" }}
-              onClick={() => toggle()}
-            >
-              Create Account
-            </Button>
-          </Wrapper>
-        ) : (
-          <Wrapper>
-            <TextField
-              name="name"
-              placeholder="Enter Name"
-              onChange={(e) => inputchange(e)}
-              variant="standard"
-            ></TextField>
-            <TextField
-              name="username"
-              placeholder="Email"
-              variant="standard"
-              onChange={(e) => inputchange(e)}
-            ></TextField>
-            <TextField
-              name="password"
-              placeholder="password"
-              variant="standard"
-              onChange={(e) => inputchange(e)}
-            ></TextField>
-            <Button
-              variant="contained"
-              style={{ backgroundColor: "#FB641B" }}
-              onClick={() => signup()}
-            >
-              SignUP
-            </Button>
-            <Typography style={{ textAlign: "center", marginTop: "5px" }}>
-              OR
-            </Typography>
-            <Button
-              variant="contained"
-              style={{ backgroundColor: "#FB641B" }}
-              onClick={() => toggle()}
-            >
-              Already have an account
-            </Button>
-          </Wrapper>
-        )}
-      </Box>
-    </Component>
+    <>
+      <Component>
+        <Box>
+          <Image src={imageURL} alt="login"></Image>
+          {account === "login" ? (
+            <Wrapper>
+              <TextField
+                name="username"
+                onChange={(e) => login(e)}
+                placeholder="Email"
+                variant="standard"
+              ></TextField>
+              <TextField
+                name="password"
+                onChange={(e) => login(e)}
+                placeholder="password"
+                variant="standard"
+              ></TextField>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "#FB641B" }}
+                onClick={() => checklogin()}
+              >
+                Login
+              </Button>
+              <Typography style={{ textAlign: "center", marginTop: "5px" }}>
+                OR
+              </Typography>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "#FB641B" }}
+                onClick={() => toggle()}
+              >
+                Create Account
+              </Button>
+            </Wrapper>
+          ) : (
+            <Wrapper>
+              <TextField
+                name="name"
+                placeholder="Enter Name"
+                onChange={(e) => inputchange(e)}
+                variant="standard"
+              ></TextField>
+              <TextField
+                name="username"
+                placeholder="Email"
+                variant="standard"
+                onChange={(e) => inputchange(e)}
+              ></TextField>
+              <TextField
+                name="password"
+                placeholder="password"
+                variant="standard"
+                onChange={(e) => inputchange(e)}
+              ></TextField>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "#FB641B" }}
+                onClick={() => signup()}
+              >
+                SignUP
+              </Button>
+              <Typography style={{ textAlign: "center", marginTop: "5px" }}>
+                OR
+              </Typography>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "#FB641B" }}
+                onClick={() => toggle()}
+              >
+                Already have an account
+              </Button>
+            </Wrapper>
+          )}
+        </Box>
+      </Component>
+    </>
   );
 };
 

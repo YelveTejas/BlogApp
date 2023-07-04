@@ -15,7 +15,6 @@ justify-content:center;
     text-decoration:none
 }
 `
-
 const Header = () => {
   return (
     <Component>

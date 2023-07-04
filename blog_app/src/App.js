@@ -7,11 +7,15 @@ import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Header from "./components/Home/Header";
 import { useState } from "react";
 import CreatePost from "./components/Home/CreatePost";
+import Details from "./components/Home/Details";
+import Update from "./components/Home/Update";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PrivateRoute = ({ authenticate, ...props }) => {
   return authenticate ? (
     <>
-      <Header />
+      <Header  />
       <Outlet />
     </>
   ) : (
@@ -21,6 +25,7 @@ const PrivateRoute = ({ authenticate, ...props }) => {
 function App() {
   const [authenticate, setAuthenticate] = useState(false);
   return (
+    <>
     <DataProvider>
       <div style={{ marginTop: 64 }}>
         <Routes>
@@ -40,9 +45,23 @@ function App() {
           >
             <Route path="/create" element={<CreatePost />}></Route>
           </Route>
+          <Route
+            path="/details/:id"
+            element={<PrivateRoute authenticate={authenticate} />}
+          >
+            <Route path="/details/:id" element={<Details />}></Route>
+          </Route>
+          <Route
+            path="/update/:id"
+            element={<PrivateRoute authenticate={authenticate} />}
+          >
+            <Route path="/update/:id" element={<Update />}></Route>
+          </Route>
         </Routes>
       </div>
     </DataProvider>
+    <ToastContainer position="top-center" autoClose={4000} hideProgressBar />
+    </>
   );
 }
 

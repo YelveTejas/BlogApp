@@ -11,7 +11,7 @@ import { categoires } from "../data";
 import styled from "@emotion/styled";
 import { Link, useSearchParams } from "react-router-dom";
 const Styledtable = styled(Table)`
-  border: 1px solid black;
+  border: none;
 `;
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -19,7 +19,7 @@ const StyledLink = styled(Link)`
 const Category = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get(`category`);
-  console.log(category)
+ 
   return (
     <>
       <Link to={`/create?category=${category || ''}`}>
@@ -39,7 +39,7 @@ const Category = () => {
         <TableHead>
           <TableRow>
             <TableCell>
-              <Link to="/">All Categories</Link>
+              <StyledLink to="/">All Categories</StyledLink>
             </TableCell>
           </TableRow>
         </TableHead>

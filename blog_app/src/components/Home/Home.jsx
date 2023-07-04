@@ -3,6 +3,7 @@ import Banner from './Banner'
 import Category from './Category'
 import { Grid } from '@mui/material'
 import styled from '@emotion/styled'
+import Post from './Post'
 
 const Home = () => {
   return (
@@ -13,7 +14,7 @@ const Home = () => {
           <Category/>
           </Grid>
        <Grid container item xs={12} sm={10} lg={10}>
-      posts
+       <Post/>
        </Grid>
    </Grid>
 
