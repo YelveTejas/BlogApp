@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, LinearProgress, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Details = () => {
+  const [loading,setLoading] = useState(false)
   const [post, setPost] = useState({});
   const { id } = useParams();
   const navigate = useNavigate()
@@ -51,14 +52,15 @@ const accessToken = sessionStorage.getItem('accesstoken').split(' ')
   const url =
     "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YmxvZyUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60";
   useEffect(() => {
-    axios.get(`http://localhost:4400/details/${id}`,{headers}).then((res) => {
+    setLoading(true)
+    axios.get(`https://blogapp-2.onrender.com/details/${id}`,{headers}).then((res) => {
       setPost(res.data);
-      
+       setLoading(false)
     });
   }, []);
   
 const deleteblog=()=>{
- axios.delete(`http://localhost:4400/delete/${post._id}`,{headers})
+ axios.delete(`https://blogapp-2.onrender.com/delete/${post._id}`,{headers})
  .then((res)=>{
   if(res.status==200){
     toast.success('Post Deleted Successfully')
@@ -70,6 +72,11 @@ const deleteblog=()=>{
   return (
     <Container>
       <Image src={url} alt="tejas" />
+      <Box>
+        {
+          loading ?<LinearProgress /> : ''
+        }
+      </Box>
       <Box style={{float:'right'}}>
         {
             saveData.username ==  post.username &&
@@ -80,7 +87,6 @@ const deleteblog=()=>{
              <DeleteIcon onClick={()=>deleteblog()} color="error"/>
             </>
         }
-     
       </Box>
       <Heading>{post.title}</Heading>
       <Box style={{display:'flex'}}>

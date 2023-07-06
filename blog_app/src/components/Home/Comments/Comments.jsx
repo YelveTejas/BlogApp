@@ -40,7 +40,7 @@ const Comments = ({ post }) => {
     Authorization: accessToken[1],
   }
   useEffect(() => {
-    axios.get(`http://localhost:4400/comment/${post._id}`,{headers}).then((res) => {
+    axios.get(`https://blogapp-2.onrender.com/comment/${post._id}`,{headers}).then((res) => {
       setGetcomments(res.data);
     });
   }, [post, toggle]);
@@ -54,7 +54,7 @@ const Comments = ({ post }) => {
     });
   };
   const addcomment = (e) => {
-    axios.post("http://localhost:4400/comment", comment,{headers}).then((res) => {
+    axios.post("https://blogapp-2.onrender.com/comment", comment,{headers}).then((res) => {
       console.log(res)
       if (res.status == 200) {
         toast.success('Comment posted successfully')

@@ -65,7 +65,7 @@ const CreatePost = () => {
   }
 const uploadPost=()=>{
  
-  axios.post('http://localhost:4400/create',post,{headers})
+  axios.post('https://blogapp-93qa.onrender.com/create',post,{headers})
   .then((res)=>{
      console.log(res)
      if(res.status==200){

@@ -5,6 +5,8 @@ import { DataContext } from "../context/DataProvider";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CircularProgress from '@mui/material/CircularProgress';
+
 const Component = styled(Box)`
   width: 400px;
   margin: auto;
@@ -29,6 +31,8 @@ const Wrapper = styled(Box)`
   }
 `;
 const Login = ({ setAuthenticate }) => {
+  const [sloading,setSloading] = useState(false)
+  const [loading,setLoading] = useState(false)
   const { setSaveData } = useContext(DataContext);
   const signupdata = {
     name: "",
@@ -43,7 +47,9 @@ const Login = ({ setAuthenticate }) => {
   const [data, setData] = useState(signupdata);
   const [loginData, setLoginData] = useState(logindata);
   const [account, setAccount] = useState("login");
-
+/*
+https://blogapp-2.onrender.com/
+*/
   const imageURL =
     "https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png";
 
@@ -60,36 +66,43 @@ const Login = ({ setAuthenticate }) => {
   };
   // console.log(loginData);
   const signup = () => {
+    setLoading(true)
     const email = data.username;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailPattern.test(email)) {
       toast.error('Please enter a valid email address.');
+      setLoading(false)
       return;
     }
     axios
-      .post("http://localhost:4400/signup", data)
+      .post("https://blogapp-93qa.onrender.com/signup", data)
       .then((res) => {
         console.log(res);
+        setLoading(false)
         toast.success('Signup successful.');
+        navigate('/login')
       })
       .catch((err) => {
+        setLoading(false)
         console.log("error", err);
       });
   };
 
   const checklogin = () => {
+    setSloading(true)
     if(!loginData.username){
       toast.info('Please Provide Your Email')
+      setLoading(false)
       return 
     }
     axios
-      .post("http://localhost:4400/login", loginData)
+      .post("https://blogapp-2.onrender.com/login", loginData)
       .then((res) => {
-        console.log(res, "Data");
         toast.success('Login successful.');
         sessionStorage.setItem("accesstoken", `Bearear ${res.data.Token}`);
         setSaveData({ username: res.data.username, name: res.data.name });
+        setLoading(false)
         setAuthenticate(true);
         navigate("/");
       })
@@ -125,7 +138,7 @@ const Login = ({ setAuthenticate }) => {
                 style={{ backgroundColor: "#FB641B" }}
                 onClick={() => checklogin()}
               >
-                Login
+                  {sloading ? <CircularProgress size={20}  coloe='inherit'/> : 'Login'}
               </Button>
               <Typography style={{ textAlign: "center", marginTop: "5px" }}>
                 OR
@@ -163,7 +176,7 @@ const Login = ({ setAuthenticate }) => {
                 style={{ backgroundColor: "#FB641B" }}
                 onClick={() => signup()}
               >
-                SignUP
+               {loading ? <CircularProgress size={20}  coloe='inherit'/> : 'Signup'}
               </Button>
               <Typography style={{ textAlign: "center", marginTop: "5px" }}>
                 OR

@@ -47,7 +47,7 @@ const Update = () => {
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:4400/details/${id}`,{headers}).then((res) => {
+    axios.get(`https://blogapp-2.onrender.com/details/${id}`,{headers}).then((res) => {
       setPost(res.data);
     });
   }, []);
@@ -80,7 +80,7 @@ const Update = () => {
   
   const uploadPost = () => {
     axios
-      .put(`http://localhost:4400/update/${id}`, post,  {headers} )
+      .put(`https://blogapp-2.onrender.com/update/${id}`, post,  {headers} )
       .then((res) => {
         console.log(res, "updated Data");
         if (res.status == 200) {

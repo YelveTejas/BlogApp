@@ -39,7 +39,7 @@ const Showcomments = ({comment,setToggle}) => {
 
     const deletecomment=()=>{
         
-        axios.delete(`http://localhost:4400/deletecomment/${comment._id}`,{headers})
+        axios.delete(`https://blogapp-2.onrender.com/deletecomment/${comment._id}`,{headers})
         .then((res)=>{
            
             if(res.status==200){
