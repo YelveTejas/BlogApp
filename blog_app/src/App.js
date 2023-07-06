@@ -11,6 +11,8 @@ import Details from "./components/Home/Details";
 import Update from "./components/Home/Update";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import About from "./components/Home/About";
+import Contact from "./components/Home/Contact";
 
 const PrivateRoute = ({ authenticate, ...props }) => {
   return authenticate ? (
@@ -56,6 +58,18 @@ function App() {
             element={<PrivateRoute authenticate={authenticate} />}
           >
             <Route path="/update/:id" element={<Update />}></Route>
+          </Route>
+          <Route
+            path="/about"
+            element={<PrivateRoute authenticate={authenticate} />}
+          >
+            <Route path="/about" element={<About />}></Route>
+          </Route>
+          <Route
+            path="/contact"
+            element={<PrivateRoute authenticate={authenticate} />}
+          >
+            <Route path="/contact" element={<Contact />}></Route>
           </Route>
         </Routes>
       </div>

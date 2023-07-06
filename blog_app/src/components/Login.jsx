@@ -79,7 +79,10 @@ const Login = ({ setAuthenticate }) => {
   };
 
   const checklogin = () => {
-    // console.log(loginData)
+    if(!loginData.username){
+      toast.info('Please Provide Your Email')
+      return 
+    }
     axios
       .post("http://localhost:4400/login", loginData)
       .then((res) => {
@@ -92,7 +95,9 @@ const Login = ({ setAuthenticate }) => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error('Error While loginin');
+        toast.error('Error while login',{
+          autoClose: 2000,
+        });
       });
   };
 
