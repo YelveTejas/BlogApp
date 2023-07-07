@@ -31,7 +31,7 @@ const Wrapper = styled(Box)`
   }
 `;
 const Login = ({ setAuthenticate }) => {
-  const [sloading,setSloading] = useState(false)
+ 
   const [loading,setLoading] = useState(false)
   const { setSaveData } = useContext(DataContext);
   const signupdata = {
@@ -90,7 +90,7 @@ https://blogapp-2.onrender.com/
   };
 
   const checklogin = () => {
-    setSloading(true)
+    setLoading(true)
     if(!loginData.username){
       toast.info('Please Provide Your Email')
       setLoading(false)
@@ -99,18 +99,22 @@ https://blogapp-2.onrender.com/
     axios
       .post("https://blogapp-2.onrender.com/login", loginData)
       .then((res) => {
-        toast.success('Login successful.');
-        sessionStorage.setItem("accesstoken", `Bearear ${res.data.Token}`);
-        setSaveData({ username: res.data.username, name: res.data.name });
-        setLoading(false)
-        setAuthenticate(true);
-        navigate("/");
+        console.log(res.status)
+        if(res.status==200){
+          toast.success('Login successful.');
+          sessionStorage.setItem("accesstoken", `Bearear ${res.data.Token}`);
+          setSaveData({ username: res.data.username, name: res.data.name });
+          setLoading(false)
+          setAuthenticate(true);
+          navigate("/");
+        }
       })
       .catch((err) => {
         console.log(err);
-        toast.error('Error while login',{
+        toast.error('Email or Password is wrong',{
           autoClose: 2000,
         });
+        setLoading(false)
       });
   };
 
@@ -138,7 +142,7 @@ https://blogapp-2.onrender.com/
                 style={{ backgroundColor: "#FB641B" }}
                 onClick={() => checklogin()}
               >
-                  {sloading ? <CircularProgress size={20}  coloe='inherit'/> : 'Login'}
+                  {loading ? <CircularProgress size={20}  coloe='inherit'/> : 'Login'}
               </Button>
               <Typography style={{ textAlign: "center", marginTop: "5px" }}>
                 OR

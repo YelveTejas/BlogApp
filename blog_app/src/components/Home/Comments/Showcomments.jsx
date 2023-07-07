@@ -5,6 +5,8 @@ import { useContext } from 'react'
 import { DataContext } from '../../../context/DataProvider'
 import styled from '@emotion/styled'
 import axios from 'axios'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Name = styled(Typography)`
     font-weight: 600,
     font-size: 18px;
@@ -43,7 +45,9 @@ const Showcomments = ({comment,setToggle}) => {
         .then((res)=>{
            
             if(res.status==200){
+                
                 setToggle((prev)=>!prev)
+                toast.success('Comment Deleted Successfully')
             }
         }).catch((err)=>{
             console.log(err)

@@ -45,8 +45,8 @@ const Post = () => {
         </Grid>
         )
       ) : (
-        <Box style={{ color: "#878787", margin: "30px 80px", fontSize: 18 ,width:'7cm',margin:"auto"}}>
-          {loading ? <CircularProgress size={40} color="success"/>  : ''}
+        <Box style={{ margin:"auto"}}>
+          {loading ? <CircularProgress size={60} color="success"/>  : ''}
         </Box>
       )}
     </>
